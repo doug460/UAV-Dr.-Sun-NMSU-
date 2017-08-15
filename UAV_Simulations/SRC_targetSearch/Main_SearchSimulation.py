@@ -12,6 +12,7 @@ from SearchSimulation import *
 from Params import Params
 from numba.types import none
 import os
+import numpy as np
 
 if __name__ == '__main__':
     pass
@@ -19,16 +20,21 @@ if __name__ == '__main__':
     ### CONTROL PROGRAM VARIABLES ####
     # for looping tests
     uav_num_i = 1
-    uav_num_f = 1
+    uav_num_f = 2
     target_num_i = 1
-    target_num_f = 1
+    target_num_f = 4
     
     
     # number of siumations to be run
-    simulations = 10
+    simulations = 1000
     
     # time limit (s) for how long the program can run
     time_limit = 1000
+    
+    # percent radius for which the pso algorithm much reach when using dipole target
+    # number of final loops to do when reached 0.99 radius
+    pso_radius_fraction = 0.99
+    pso_final_loops = 2
     
     # save images and the rate at which to save them
     saveImages = True
@@ -51,12 +57,12 @@ if __name__ == '__main__':
     # select the uav to be used
     # UAV_PSO: for pso flight pattern with uav
     # UAV_RASTER: for raster flight pattern
-    uav_id = UAV_RASTER
+    uav_id = UAV_PSO
     
     # select type of target to be used
     # TARGET_RANDOM: is for random moving target
     # TARGET_DIPOLE: target behaves as uavs are dipoles
-    target_id = TARGET_RANDOM
+    target_id = TARGET_DIPOLE    
     
     
     # loop through tests and save info
@@ -67,6 +73,18 @@ if __name__ == '__main__':
     
             # initialize parameters    
             params = Params(uav_num, uav_fov, uav_speed, target_num, target_speed, fps, simulations, time_limit)
+            
+            # check for dipole "smart" target, and adjust time limit accordingly
+            if(target_id == TARGET_DIPOLE):
+                # get steps for simulation
+                # get indx for reaching 99% radius
+                indx =  params.pso_radius > params.radius_max*pso_radius_fraction
+                radius_limit = np.min(params.pso_radius[indx])
+                time_limit = np.min(params.pso_time[indx])
+                
+                # add the time it takes to do two loops at that radius
+                time_limit += pso_final_loops * 2*np.pi * radius_limit / params.uav_speed    
+                params.time_limit = time_limit
             
             # run simulation run
             searchSim = SearchSimulation(params, uav_id, target_id, saveImages, saveImages_rate, saveMovie, saveMovie_rate, time_limit)    

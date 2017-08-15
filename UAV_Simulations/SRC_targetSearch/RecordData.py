@@ -37,7 +37,7 @@ class RecordData(object):
     def toString(self):
         buf = "Simulations run: %d\n" % (self.params.simulations)
         buf += "Detected %d out of %d simulatoins\n" % (self.successNum, self.params.simulations)
-        buf += "Time limit = %d\n" % (self.params.time_limit)
+        buf += "Time limit = %f\n" % (self.params.time_limit)
         buf += "Average Time to detection: %f \n\tstd = %f\n" % (self.averageTime(), self.stdTime())
         buf += "Max Radius = %f \n\t Max Searchable Radius = %f\n" % (self.params.radius_max, self.params.radius_search) 
         buf += "Uav info:\n\tNumber: %d\n\tSpeed: %d\n\tD_fov: %d\n\tfps: %d\n" % (self.params.uav_num, self.params.uav_speed, self.params.uav_fov,

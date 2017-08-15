@@ -113,7 +113,7 @@ class LoopController(object):
         time_limit = np.min(params.pso_time[indx])
         
         # add the time it takes to do two loop at that radius
-        time_limit += 2*np.pi * radius_limit / params.uav_speed    
+        time_limit += 4*np.pi * radius_limit / params.uav_speed    
         params.time_limit = time_limit
         
         
