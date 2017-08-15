@@ -25,7 +25,7 @@ if __name__ == '__main__':
     
     
     # number of siumations to be run
-    simulations = 1000
+    simulations = 10
     
     # time limit (s) for how long the program can run
     time_limit = 1000
@@ -47,9 +47,6 @@ if __name__ == '__main__':
     # fps of detection
     fps = 30
     
-    #step back one step in dir path for os system
-    os.chdir('..')
-    
     
     # select the uav to be used
     # UAV_PSO: for pso flight pattern with uav
@@ -60,6 +57,7 @@ if __name__ == '__main__':
     # TARGET_RANDOM: is for random moving target
     # TARGET_DIPOLE: target behaves as uavs are dipoles
     target_id = TARGET_RANDOM
+    
     
     # loop through tests and save info
     for uav_num in range(uav_num_i, uav_num_f + 1):

@@ -18,6 +18,8 @@ from CheckStatus import checkStatus
 from RecordData_cont import RecordData
 from Constants import *
 
+from SaveDirs import DIR_DATA
+
 class LoopController(object):
     '''
     classdocs
@@ -91,10 +93,8 @@ class LoopController(object):
     
     # begin continuous attack 
     def begin(self):
-        # directory to which to save data
-        data_path = 'Data/'
-        
-        saveDir = data_path + time.strftime('%Y-%m-%d--%H-%M-%S--') + self.name_id + "/"
+        # directory to which to save data        
+        saveDir = DIR_DATA + time.strftime('%Y-%m-%d--%H-%M-%S--') + self.name_id + "/"
         
         if not os.path.exists(saveDir):
             try: 

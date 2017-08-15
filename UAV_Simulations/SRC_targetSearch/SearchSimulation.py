@@ -17,6 +17,8 @@ from UavRaster import UavRaster
 from TargetRandom import TargetRandom
 from TargetDipole import TargetDipole
 
+from SaveDirs import DIR_DATA
+
 
 # type of uav to be used
 UAV_PSO = 1
@@ -93,9 +95,8 @@ class SearchSimulation(object):
     def begin(self):
         
         # directory to which to save data
-        data_path = 'Data/'
         
-        saveDir = data_path + time.strftime('%Y-%m-%d--%H-%M-%S--') + self.name_id + "/"
+        saveDir = DIR_DATA + time.strftime('%Y-%m-%d--%H-%M-%S--') + self.name_id + "/"
         if not os.path.exists(saveDir):
             try: 
                 os.makedirs(saveDir)

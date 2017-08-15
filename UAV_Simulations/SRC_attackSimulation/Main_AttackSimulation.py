@@ -47,6 +47,7 @@ if __name__ == '__main__':
     # initialize parameters    
     params = Params(uav_num, uav_fov, uav_speed, target_num, target_speed, fps, none, none)
     
+    # radius parameters for attacking targets
     initial_radius = params.radius_search
     final_radius = initial_radius * 2
     radial_stepSize = (final_radius - initial_radius)/2

@@ -34,10 +34,7 @@ if __name__ == '__main__':
     uav_fov = 100
     
     # fps of detection
-    fps = 30
-    
-    #step back one step in dir path for os system
-    os.chdir('..')    
+    fps = 30  
     
     # select the uav to be used
     # UAV_PSO: for pso flight pattern with uav

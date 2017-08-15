@@ -17,6 +17,8 @@ import os
 import errno
 import numpy as np
 
+from SaveDirs import DIR_DATA
+
 # type of uav to be used
 UAV_PSO = 1
 UAV_RASTER = 2
@@ -80,7 +82,7 @@ class AttackSimulation(object):
 	def begin(self):
 		# specify save directory
 		# directory to which to save data
-		save_dir = "D:/Users/Doug Brown/Documents/NMSU Research Dr. Sun/Programming/Python/Data" + "/" + time.strftime('%Y-%m-%d--%H-%M-%S--') + self.name_id + "/"
+		save_dir = DIR_DATA + "/" + time.strftime('%Y-%m-%d--%H-%M-%S--') + self.name_id + "/"
 		if not os.path.exists(save_dir):
 			try: 
 				os.makedirs(save_dir)
