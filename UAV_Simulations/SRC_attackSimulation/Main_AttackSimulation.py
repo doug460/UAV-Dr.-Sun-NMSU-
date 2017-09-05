@@ -50,7 +50,7 @@ if __name__ == '__main__':
     # radius parameters for attacking targets
     initial_radius = params.radius_search
     final_radius = initial_radius * 2
-    radial_stepSize = (final_radius - initial_radius)/2
+    radial_stepSize = (final_radius - initial_radius)/10
     
     # initialize and run simulation
     attackSim = AttackSimulation(params, uav_id, target_id, initial_radius, final_radius, radial_stepSize)

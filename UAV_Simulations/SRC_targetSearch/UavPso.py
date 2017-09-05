@@ -43,7 +43,7 @@ class UavPso(object):
         
         # initialize the position
         self.angle = (2 * math.pi / (params.uav_num)) * indx 
-        self.radius =  params.uav_speed * params.uav_fov /(2*(2*params.target_speed + params.uav_speed))
+        self.radius =  self.getInitRadius(params)
         
         self.radius_initial = self.radius
         self.updatePos()
@@ -107,4 +107,9 @@ class UavPso(object):
     # get position of uav
     def getPos(self):
         return self.position
+    
+    # get initial radius
+    @staticmethod
+    def getInitRadius(params):
+        return params.uav_speed * params.uav_fov /(2*(2*params.target_speed + params.uav_speed))
         
