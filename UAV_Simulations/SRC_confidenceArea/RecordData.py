@@ -8,6 +8,7 @@ class for recording all the data/pics/video of a confidence area simulation
 
 import Variables as varis
 import numpy as np
+import matplotlib.pyplot as plt
 
 
 class RecordData(object):
@@ -28,6 +29,7 @@ class RecordData(object):
     
     
     # for size of confidence area
+    # records every second
     def rec_confArea(self, confArea):
         
         # only save every second
@@ -47,6 +49,16 @@ class RecordData(object):
                                                                                 varis.params.fps)
         buf += "TargetRandom info:\n\tSpeed: %d\n" % (varis.params.target_speed)
         return(buf)  
+    
+    # save graph data 
+    def save_graphs(self):
+        plt.plot(self.area_progression)
+        plt.title('Confidence area vs time')
+        plt.xlabel('Time (s)')
+        plt.ylabel('Area (m^2)')
+        
+        buf = varis.saveDir + 'confArea.png'
+        plt.savefig(buf)
     
     # record data to file
     def save_txt(self):

@@ -34,7 +34,7 @@ pso_radius_fraction = 0.99
 pso_final_loops = 2
 
 # sive of matrix to be used
-matrix_dim = 500
+matrix_dim = 100
 
 # visualization stuff
 view_liveBool = False

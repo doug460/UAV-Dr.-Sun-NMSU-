@@ -92,6 +92,7 @@ class ConfArea(object):
         # print and save simulation data...
         print(recorder.toString())
         recorder.save_txt()
+        recorder.save_graphs()
 
 
 
