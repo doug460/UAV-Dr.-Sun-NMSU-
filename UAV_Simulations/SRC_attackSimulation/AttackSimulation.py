@@ -99,12 +99,14 @@ class AttackSimulation(object):
 		# create detection object for check status of targets with respect to uavs
 		checkDetect = CheckDetect_attack()
 		
+		# get total simulations
+		total_sims = (self.final_radius - self.initial_radius)/self.radial_stepSize + 1
+		self.params.simulations = total_sims
+		
 		# FOR_LOOP: steps throgh different radii of attack
 		for radius in np.arange(self.initial_radius, self.final_radius + self.radial_stepSize, self.radial_stepSize):
 			# reset variables for new run	
 			self.params.reset()	
-			
-			total_sims = (self.final_radius - self.initial_radius)/self.radial_stepSize + 1
 			current_sim = (radius - self.initial_radius)/self.radial_stepSize + 1
 			buf = "Running %d of %d simulations" % (current_sim, total_sims)
 			print(buf)
@@ -123,6 +125,9 @@ class AttackSimulation(object):
 				uav = self.getUav(params, indx)
 				uavs.insert(indx, uav)	
 				
+			# initialize uav position recorder
+			data.initUavsPos(uavs)
+				
 			
 			# WHILE_LOOP till all targets are detected or successfull
 			while(checkDetect.shouldContinue(params)):		
@@ -133,6 +138,10 @@ class AttackSimulation(object):
 				
 				for uav in uavs:
 					uav.moveStep()
+					
+				# if on last simulation, record uav path
+				if(current_sim == total_sims):
+					data.recordUavsPos(uavs)
 				
 				
 				# check if detected or if attack was successful
@@ -141,6 +150,8 @@ class AttackSimulation(object):
 					
 			# record positions of successful attacks
 			data.recordSuccess(params)	
+			data.recordRadii(radius)
+			
 			
 		
 				
@@ -152,6 +163,7 @@ class AttackSimulation(object):
 		
 		# DATA object: save attack information 
 		data.saveData()
+		data.printTxt()
 		
 		
 		

@@ -21,7 +21,7 @@ if __name__ == '__main__':
     uav_num = 1
     
     # targets will get distributed evenly over a circle
-    target_num = 360
+    target_num = 50
     
     #### ENVIRONMENT VARIABLES ####
     target_speed = 3
@@ -31,6 +31,10 @@ if __name__ == '__main__':
     
     # fps of detection
     fps = 30
+    
+    # initial radius multipler for stopping radius
+    radius_multiplier = 2
+    radius_steps = 5
     
     
     # select the uav to be used
@@ -49,8 +53,8 @@ if __name__ == '__main__':
     
     # radius parameters for attacking targets
     initial_radius = params.radius_search
-    final_radius = initial_radius * 2
-    radial_stepSize = (final_radius - initial_radius)/10
+    final_radius = initial_radius * radius_multiplier
+    radial_stepSize = (final_radius - initial_radius)/radius_steps
     
     # initialize and run simulation
     attackSim = AttackSimulation(params, uav_id, target_id, initial_radius, final_radius, radial_stepSize)

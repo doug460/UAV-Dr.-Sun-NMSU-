@@ -13,20 +13,21 @@ from Params import Params
 from numba.types import none
 import os
 import numpy as np
+import math
 
 if __name__ == '__main__':
     pass
 
     ### CONTROL PROGRAM VARIABLES ####
     # for looping tests
-    uav_num_i = 1
+    uav_num_i = 2
     uav_num_f = 2
-    target_num_i = 1
+    target_num_i = 4
     target_num_f = 4
     
     
     # number of siumations to be run
-    simulations = 1000
+    simulations = 3
     
     # time limit (s) for how long the program can run
     time_limit = 1000
@@ -41,7 +42,7 @@ if __name__ == '__main__':
     saveImages_rate = 100
     
     # save move stuff
-    saveMovie = False
+    saveMovie = True
     saveMovie_rate = 1
     
     #### ENVIRONMENT VARIABLES ####
@@ -76,13 +77,23 @@ if __name__ == '__main__':
             
             # check for dipole "smart" target, and adjust time limit accordingly
             if(target_id == TARGET_DIPOLE):
-                # get steps for simulation
+               
+                # calc time limit
                 # get indx for reaching 99% radius
                 indx =  params.pso_radius > params.radius_max*pso_radius_fraction
                 radius_limit = np.min(params.pso_radius[indx])
                 time_limit = np.min(params.pso_time[indx])
                 
-                # add the time it takes to do two loops at that radius
+                # get rid of time not acutally in pso path at beginning
+                indx = params.pso_radius > UavPso.getInitRadius(params)
+                time_limit -= np.min(params.pso_time[indx])
+                
+                # need to adjust for initial motion of two loops at initial radius
+                time_initial = 2 * 2 * math.pi * UavPso.getInitRadius(params) / uav_speed
+                time_limit += time_initial
+                
+                
+                # do two loops at end
                 time_limit += pso_final_loops * 2*np.pi * radius_limit / params.uav_speed    
                 params.time_limit = time_limit
             
