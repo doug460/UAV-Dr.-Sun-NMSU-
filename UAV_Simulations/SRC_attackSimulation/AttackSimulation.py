@@ -94,7 +94,7 @@ class AttackSimulation(object):
 		
 		# create DATA object to hold successful locations of attacks from targets
 		# DATA object will also hold what ever information that I wish it to hold
-		data = Data(self.params, save_dir)
+		data = Data(self.params, save_dir, self.initial_radius, self.final_radius, self.radial_stepSize)
 		
 		# create detection object for check status of targets with respect to uavs
 		checkDetect = CheckDetect_attack()

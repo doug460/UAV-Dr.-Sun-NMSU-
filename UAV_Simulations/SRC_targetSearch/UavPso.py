@@ -21,8 +21,7 @@ class UavPso(object):
     '''   
     
     # basic parameters for uav
-    params = none
-    
+    params = none    
    
     
 
@@ -50,7 +49,6 @@ class UavPso(object):
         
         # in the pso solution in params, this is when the spiral motion whill begin
         self.time_psoStart = np.interp(self.radius_initial, params.pso_radius, params.pso_time)
-
         
        
         

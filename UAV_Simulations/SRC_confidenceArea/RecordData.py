@@ -30,7 +30,7 @@ class RecordData(object):
     
     # for size of confidence area
     # records every second
-    def rec_confArea(self, confArea):
+    def rec_confAreaSize(self, confArea):
         
         # only save every second
         if(self.sec_counter == 0 or varis.params.current_time > self.sec_counter):
@@ -43,6 +43,8 @@ class RecordData(object):
     def toString(self):
         buf = 'Confidence area simulation\n\n'      
         buf += "Time limit = %f\n" % (varis.params.time_limit)
+        buf += 'Ended at time = %f\n' % (varis.params.current_time)
+        buf += 'Running until %f %% of maximum radius\n' % (varis.pso_radius_fraction * 100)
         buf += "Confidence area final size (m^2) = %f\n" % (np.max(self.area_progression))
         buf += "Max Radius = %f \n\t Max Searchable Radius = %f\n" % (varis.params.radius_max, varis.params.radius_search) 
         buf += "Uav info:\n\tNumber: %d\n\tSpeed: %d\n\tD_fov: %d\n\tfps: %d\n" % (varis.params.uav_num, varis.params.uav_speed, varis.params.uav_fov,
@@ -51,12 +53,19 @@ class RecordData(object):
         return(buf)  
     
     # save graph data 
-    def save_graphs(self):
+    def save_graphs(self, confArea):
+        # record confidence area vs time
         plt.plot(self.area_progression)
         plt.title('Confidence area vs time')
         plt.xlabel('Time (s)')
         plt.ylabel('Area (m^2)')
         
+        buf = varis.saveDir + 'confArea_vs_t.png'
+        plt.savefig(buf)
+        
+        # recorder image of confidence area at end
+        plt.imshow(confArea.matrix, cmap = 'gray_r')
+        plt.title('Confidence area matrix')
         buf = varis.saveDir + 'confArea.png'
         plt.savefig(buf)
     

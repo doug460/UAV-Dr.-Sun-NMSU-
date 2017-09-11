@@ -8,12 +8,30 @@ general variables for confidence area simulation
 from numba.types import none
 from Params import Params
 import numpy as np
-from UavPso import UavPso
 import math
 import time
 from SaveDirs import DIR_DATA
+from UavPso_add_sub import UavPso_addSub
 import os
 import errno
+
+# state of PSO formation
+PSO_NORMAL = 1
+PSO_REORIENT = 2
+PSO_REDUCE_RADIUS = 3
+
+
+# State of UAV
+UAV_NORMAL = 1
+UAV_REFERENCE = 2
+
+# operations
+OP_ADD = 1
+OP_SUB = 2
+
+#-------------------------------------------------------------------------------------#
+#-------------------------------------------------------------------------------------#
+
 
 # number of uavs
 uav_num = 1
@@ -31,7 +49,6 @@ fps = 30
 # percent radius for which the pso algorithm much reach when using dipole target
 # number of final loops to do when reached 0.99 radius
 pso_radius_fraction = 0.99
-pso_final_loops = 2
 
 # sive of matrix to be used
 matrix_dim = 100
@@ -40,6 +57,10 @@ matrix_dim = 100
 view_liveBool = False
 view_liveFPS = 1
 view_liveDownSample = 2
+
+# array for adding and subtracting uavs
+# [] = run standard
+uavChangeArray = [OP_ADD]
 
 
 
@@ -53,27 +74,6 @@ name_id = 'confArea'
 # initialize parameters    
 params = Params(uav_num, uav_fov, uav_speed, none, target_speed, fps, none, none)
 
-# calc time limit
-# get indx for reaching 99% radius
-indx =  params.pso_radius > params.radius_max*pso_radius_fraction
-radius_limit = np.min(params.pso_radius[indx])
-time_limit = np.min(params.pso_time[indx])
-
-# get rid of time not acutally in pso path at beginning
-indx = params.pso_radius > UavPso.getInitRadius(params)
-time_limit -= np.min(params.pso_time[indx])
-
-# need to adjust for initial motion of two loops at initial radius
-time_initial = 2 * 2 * math.pi * UavPso.getInitRadius(params) / uav_speed
-time_limit += time_initial
-
-
-# do two loops at end
-time_limit += pso_final_loops * 2*np.pi * radius_limit / params.uav_speed    
-params.time_limit = time_limit
-
-
-
 # directory to which to save data
 saveDir = DIR_DATA + time.strftime('%Y-%m-%d--%H-%M-%S--') + name_id + "/"
 if not os.path.exists(saveDir):
@@ -82,6 +82,8 @@ if not os.path.exists(saveDir):
     except OSError as exc:
         if exc.errno != errno.EEXIST:
             raise
+
+
 
 
 

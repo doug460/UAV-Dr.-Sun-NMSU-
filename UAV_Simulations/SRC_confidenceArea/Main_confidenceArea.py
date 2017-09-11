@@ -10,7 +10,10 @@ from SRC_confidenceArea.ConfArea_Matrix import ConfArea_Matrix
 from SRC_confidenceArea.ViewLive import ViewLive
 from UavPso import UavPso
 from RecordData import RecordData
-
+import numpy as np
+from UavPso_add_sub import UavPso_addSub
+from SRC_confidenceArea.Variables import PSO_REORIENT, UAV_REFERENCE
+import math
 
 class ConfArea(object):
     '''
@@ -30,7 +33,7 @@ class ConfArea(object):
         
     # this controls which uav object to return
     def getUav(self, indx):
-        uav = UavPso(varis.params,indx)
+        uav = UavPso_addSub(varis.params,indx)
         
         # add uav to params
         varis.params.addUav(uav)
@@ -59,12 +62,17 @@ class ConfArea(object):
         # basically just keeptrack of percent to manage printing
         percent_counter = 1
 
-        # loop for amount of time
-        while(varis.params.current_time < varis.time_limit):
-            percent = 100 * varis.params.current_time / varis.params.time_limit
+        # loop until radius is at 99 percent
+        # have done all add/sub proceedures
+        # and proceedures are complete
+        while(np.linalg.norm(uavs[0].getPos())/np.linalg.norm(varis.params.radius_max) < varis.pso_radius_fraction or 
+              len(varis.uavChangeArray) > 0 or 
+              uavs[0].getPsoStatus() != varis.PSO_NORMAL):
+            
+            percent = 100 * np.linalg.norm(uavs[0].getPos())/np.linalg.norm(varis.params.radius_max)
             if(percent > percent_counter):
                 percent_counter += 1
-                print('%% %f' % (percent))
+                print('%% %.0f' % (percent))
             
             # update positions for uavs        
             for indx in range(0,varis.params.uav_num):
@@ -87,12 +95,44 @@ class ConfArea(object):
             
              
             # record stuff
-            recorder.rec_confArea(self.confArea)
+            recorder.rec_confAreaSize(self.confArea)
+            
+            # chech if need to jump into add/subtract procedure
+            if(np.linalg.norm(uavs[0].getPos())/np.linalg.norm(varis.params.radius_max) < varis.pso_radius_fraction and
+               len(varis.uavChangeArray) > 0):
+                
+                status = varis.uavChangeArray.pop()
+                
+                # if adding a uav
+                if(status == varis.OP_ADD):
+                    # add uav to end of uavs
+                    # place between first and last
+                    uav = self.getUav(0)                    
+                    
+                    # calc radius and position of uav
+                    uav.radius = np.linalg.norm(uavs[0].getPos())
+                    uav.angle = uavs[0].angle - (math.pi)/varis.uav_num
+                    uav.updatePos()
+                    
+                    uavs[0].setUavStatus(UAV_REFERENCE)
+                    
+                    # append and update procedures
+                    uav.setPsoStatus(PSO_REORIENT)
+                    uavs.append(uav)
+                    
+                    # TODO: recalcualte pso path
+                    
+                
+                # else subtracting a uav
+                else: 
+                    # TODO: stuff
+                    print('error')   
+                    
         
         # print and save simulation data...
         print(recorder.toString())
         recorder.save_txt()
-        recorder.save_graphs()
+        recorder.save_graphs(self.confArea)
 
 
 

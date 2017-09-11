@@ -1,0 +1,24 @@
+Notes for adding and subtracting UAVs
+
+Basically have variable array for order of add and subtract
+
+------FOR ADDITION------- 
+
+UAV-PSO
+	make uavs move circularly
+	add uav behind last uav
+	
+	choose last uav as UAV-R
+	jump to slower speed for other uavs
+	
+	once at correct distribution relative to UAV-R
+		jump to normal speed
+		
+	adjust time in pso for interpolation reasons
+	
+Params
+	recalculate pso path in params
+	
+UAV-PSO 
+	resume pso path
+	

@@ -10,12 +10,17 @@ import math
 
 class Data(object):
 	
-	def __init__(self, params, save_dir):
+	def __init__(self, params, save_dir, initial_radius, final_radius, radial_stepSize):
 		# need directory to save information to
 		self.save_dir = save_dir
 		
 		# store params object
 		self.params = params
+		
+		# radius info
+		self.initial_radius = initial_radius
+		self.final_radius = final_radius
+		self.radial_stepSize = radial_stepSize
 		
 		# initialize list of successfull posistions
 		self.successfull_positions = []
@@ -138,6 +143,10 @@ class Data(object):
 															len(self.successfull_positions))
 		buf += 'Defense rate = %f %%\n' % (100 * (self.params.target_num * self.params.simulations - len(self.successfull_positions))/
 										(self.params.target_num * self.params.simulations))
+		buf += 'Radius info:\n'
+		buf += '\tInitial target radius: %f\n' % (self.initial_radius)
+		buf += '\tFinal target radius: %f\n' % (self.final_radius)
+		buf += '\tTarget radius stepsize: %f\n' % (self.radial_stepSize)
 		buf += "Max Radius = %f \n\t Max Searchable Radius = %f\n" % (self.params.radius_max, self.params.radius_search) 
 		buf += "Uav info:\n\tNumber: %d\n\tSpeed: %d\n\tD_fov: %d\n\tfps: %d\n" % (self.params.uav_num, 
 																				self.params.uav_speed, self.params.uav_fov,
