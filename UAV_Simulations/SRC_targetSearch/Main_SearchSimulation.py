@@ -20,14 +20,14 @@ if __name__ == '__main__':
 
     ### CONTROL PROGRAM VARIABLES ####
     # for looping tests
-    uav_num_i = 2
-    uav_num_f = 2
-    target_num_i = 4
-    target_num_f = 4
+    uav_num_i = 1
+    uav_num_f = 1
+    target_num_i = 1
+    target_num_f = 1
     
     
     # number of siumations to be run
-    simulations = 3
+    simulations = 1
     
     # time limit (s) for how long the program can run
     time_limit = 1000
@@ -38,7 +38,7 @@ if __name__ == '__main__':
     pso_final_loops = 2
     
     # save images and the rate at which to save them
-    saveImages = True
+    saveImages = False
     saveImages_rate = 100
     
     # save move stuff

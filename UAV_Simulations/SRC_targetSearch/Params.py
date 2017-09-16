@@ -54,8 +54,6 @@ class Params(object):
         self.target_speed = target_speed
         self.fps = fps
         self.simulations = simulations
-        self.radius_max = uav_fov * uav_num *uav_speed / (2 * math.pi * target_speed)
-        self.radius_search = self.radius_max + uav_fov/2
         self.time_limit = time_limit
         
         # global current time that is being run for this simulation
@@ -66,15 +64,11 @@ class Params(object):
         self.uavs = []
         self.targets = []
         
-        # this is a loop to solve for the equations of motion PSO
-        solTime_max = 20.0
-        solTime_step = 0.01
-        self.diff_solve(solTime_max, solTime_step)
-        while max(self.pso_radius) < self.radius_max * 0.99:
-            solTime_max *= 2
-            solTime_step *= 2
-            self.diff_solve(solTime_max, solTime_step)
-            
+        # calculate the pso path
+        self.calc_psoPath()
+        
+        
+        
     # see notes, this is the diff eq to move the uav
     def diff_eq(self, Y,t):
         eq = self.uav_num * self.uav_fov *self.uav_speed /(2*math.pi * Y[0]) - self.target_speed 
@@ -101,4 +95,28 @@ class Params(object):
     # add target to list
     def addTarget(self, target):
         self.targets.append(target)
+        
+    # calculate pso path
+    def calc_psoPath(self):
+        self.radius_max = self.get_radiusMax(self.uav_num)
+        self.radius_search = self.get_radiusSearch(self.uav_num)
+        
+        # this is a loop to solve for the equations of motion PSO
+        solTime_max = 20.0
+        solTime_step = 0.01
+        self.diff_solve(solTime_max, solTime_step)
+        while max(self.pso_radius) < self.radius_max * 0.99:
+            solTime_max *= 2
+            solTime_step *= 2
+            self.diff_solve(solTime_max, solTime_step)
+            
+    # get max search radius based on number of uavs
+    def get_radiusMax(self, uav_num):
+        return self.uav_fov * uav_num * self.uav_speed / (2 * math.pi * self.target_speed)
+        
+    def get_radiusSearch(self, uav_num):
+        radius_max = self.get_radiusMax(uav_num)
+        return radius_max + self.uav_fov/2
+        
+        
         

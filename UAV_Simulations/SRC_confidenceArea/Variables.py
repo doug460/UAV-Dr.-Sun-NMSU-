@@ -11,19 +11,27 @@ import numpy as np
 import math
 import time
 from SaveDirs import DIR_DATA
-from UavPso_add_sub import UavPso_addSub
 import os
 import errno
 
+# RUN Z PROGRAM HANZ!!
+
+
 # state of PSO formation
+PSO_PRE_NORMAL = 4
 PSO_NORMAL = 1
+
+PSO_PRE_REORIENT = 5
 PSO_REORIENT = 2
+
 PSO_REDUCE_RADIUS = 3
+
 
 
 # State of UAV
 UAV_NORMAL = 1
 UAV_REFERENCE = 2
+UAV_REORIENT = 3
 
 # operations
 OP_ADD = 1
@@ -34,11 +42,14 @@ OP_SUB = 2
 
 
 # number of uavs
-uav_num = 1
+uav_num = 2
 
 # uav stuff
 uav_speed = 25
 uav_fov = 100
+
+# speed at which the reorienting uavs should travel
+uav_reorientSpeed = uav_speed - 5
 
 # target stuff
 target_speed = 3
@@ -48,20 +59,25 @@ fps = 30
 
 # percent radius for which the pso algorithm much reach when using dipole target
 # number of final loops to do when reached 0.99 radius
-pso_radius_fraction = 0.99
+pso_radius_fraction = 0.95
 
 # sive of matrix to be used
-matrix_dim = 100
+matrix_dim = 300
 
 # visualization stuff
 view_liveBool = False
 view_liveFPS = 1
 view_liveDownSample = 2
 
+# for animation
+# down sample is for matrix
+anime_bool = True
+anime_fps = 2
+anime_downSample = 2
+
 # array for adding and subtracting uavs
 # [] = run standard
 uavChangeArray = [OP_ADD]
-
 
 
 
@@ -82,6 +98,12 @@ if not os.path.exists(saveDir):
     except OSError as exc:
         if exc.errno != errno.EEXIST:
             raise
+
+# get the total number of uavs
+uavs_max = uav_num
+for opp in uavChangeArray:
+    if(opp == OP_ADD):
+        uavs_max += 1
 
 
 

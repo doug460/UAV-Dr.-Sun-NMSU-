@@ -22,7 +22,8 @@ class ConfArea_Matrix(object):
         
         # there is a scale factor for the area
         # going to include 110% of searchable area
-        self.real2matrix = (varis.matrix_dim / 2) / (varis.params.radius_search * 1.1)
+        radius_search = varis.params.get_radiusSearch(varis.uavs_max)
+        self.real2matrix = (varis.matrix_dim / 2) / (radius_search * 1.1)
         self.matrix2real = 1 / self.real2matrix
         
         
@@ -40,9 +41,7 @@ class ConfArea_Matrix(object):
     def get_areaSize(self):
         sum = np.sum(self.matrix)
         area = sum * (self.matrix2real ** 2)
-        return area
-            
-        
+        return area     
         
         
     # update environement matrix

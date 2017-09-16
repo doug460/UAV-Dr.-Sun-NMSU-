@@ -21,7 +21,13 @@ class UavPso(object):
     '''   
     
     # basic parameters for uav
-    params = none    
+    params = none
+    
+
+    # the time that the pso should begin based on the equaitons
+    time_psoStart = none
+    # time shift between pso_start and actuall time
+    time_shift = none  
    
     
 
@@ -33,11 +39,6 @@ class UavPso(object):
         indx: is the number of a specific uav that is being called
         '''
         
-        # the time that the pso should begin based on the equaitons
-        self.time_psoStart = none
-        # time shift between pso_start and actuall time
-        self.time_shift = none
-        
         UavPso.params = params
         
         # initialize the position
@@ -48,7 +49,10 @@ class UavPso(object):
         self.updatePos()
         
         # in the pso solution in params, this is when the spiral motion whill begin
-        self.time_psoStart = np.interp(self.radius_initial, params.pso_radius, params.pso_time)
+        UavPso.time_psoStart = np.interp(self.radius_initial, params.pso_radius, params.pso_time)
+        
+        # store current index value for this uav
+        self.indx = indx
         
        
         
@@ -63,8 +67,8 @@ class UavPso(object):
         if(UavPso.params.current_time < 4 * math.pi * self.radius_initial / (UavPso.params.uav_num * UavPso.params.uav_speed)):
             self.moveCircle()
         else:
-            if(self.time_shift == none):
-                self.time_shift = self.time_psoStart - UavPso.params.current_time
+            if(UavPso.time_shift == none):
+                UavPso.time_shift = UavPso.time_psoStart - UavPso.params.current_time
             self.moveSpiral()
         
         # update position
@@ -84,7 +88,7 @@ class UavPso(object):
     
     # move spiral motion, this is after circle motion is completed
     def moveSpiral(self):
-        time = UavPso.params.current_time + self.time_shift
+        time = UavPso.params.current_time + UavPso.time_shift
         
         # solve for new radius
         if(time < max(UavPso.params.pso_time)):
