@@ -56,18 +56,18 @@ class ConfArea(object):
         print("Running confidence area simulation")
         
         # basically just keeptrack of percent to manage printing
-        percent_counter = math.floor(100 * np.linalg.norm(uavs[0].getPos())/np.linalg.norm(varis.params.radius_max))
+        percent_previous = 0
 
         # loop until radius is at 99 percent
         # have done all add/sub proceedures
         # and proceedures are complete
-        while(np.linalg.norm(uavs[0].getPos())/np.linalg.norm(varis.params.radius_max) < varis.pso_radius_fraction or 
+        while(np.linalg.norm(uavs[0].getPos())/np.linalg.norm(varis.params.get_radiusMax(varis.uav_num)) < varis.pso_radius_fraction or 
               len(varis.uavChangeArray) > 0 or 
               uavs[0].getPsoStatus() != varis.PSO_NORMAL):
             
-            percent = 100 * np.linalg.norm(uavs[0].getPos())/np.linalg.norm(varis.params.radius_max)
-            if(percent > percent_counter):
-                percent_counter += 1
+            percent = np.floor(100 * np.linalg.norm(uavs[0].getPos())/np.linalg.norm(varis.params.get_radiusMax(varis.uav_num)))
+            if(percent != percent_previous):
+                percent_previous = percent
                 print('%% %.0f' % (percent))
             
             # update positions for uavs
@@ -96,15 +96,15 @@ class ConfArea(object):
             recorder.rec_anime(self.confArea)
             
             # chech if need to jump into add/subtract procedure
-            if(np.linalg.norm(uavs[0].getPos())/varis.params.radius_max > varis.pso_radius_fraction and
+            if(np.linalg.norm(uavs[0].getPos())/varis.params.get_radiusMax(varis.uav_num) > varis.pso_radius_fraction and
                len(varis.uavChangeArray) > 0):
-                
-                print("Adding UAV")
-                
+
                 status = varis.uavChangeArray.pop()
                 
                 # if adding a uav
                 if(status == varis.OP_ADD):
+                    print("Adding UAV")
+                    
                     # add uav to end of uavs
                     # place between first and last
                     uav = self.getUav(varis.uav_num)                    
@@ -140,16 +140,33 @@ class ConfArea(object):
                     uavs[0].setPsoStatus(varis.PSO_PRE_REORIENT)
                     uavs[0].startPreReorient()                 
                     
-                    # update percentage
-                    percent_counter = math.floor(100 * np.linalg.norm(uavs[0].getPos())/np.linalg.norm(varis.params.radius_max))
-                    
                 
                 # else subtracting a uav
                 else: 
-                    # TODO: stuff
-                    print('error')   
-                
-        
+                    print('Subtracting UAV')
+                    # delete uav right in front of reference uav
+                    # update uav NUM
+                    uavs.pop(1)
+                    varis.params.delUav(1)
+                    varis.params.uav_num -= 1
+                    varis.uav_num -= 1
+                    
+                    # update recorder for when uavs was subtracted
+                    recorder.uavSub()
+                    
+                    # define uav 0 as reference
+                    # reference uav
+                    uavs[0].setUavStatus(varis.UAV_REFERENCE)
+                    
+                    # make all other uavs reorient
+                    for indx in range(1,varis.uav_num):
+                        # update indices
+                        uavs[indx].indx = indx
+                        uavs[indx].setUavStatus(varis.UAV_REORIENT)
+                        
+                    
+                    # make pso path as subtracting
+                    uavs[0].setPsoStatus(varis.PSO_REDUCE_RADIUS)
                     
         
         # print and save simulation data...

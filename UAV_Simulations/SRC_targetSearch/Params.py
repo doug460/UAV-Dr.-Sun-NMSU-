@@ -91,6 +91,10 @@ class Params(object):
     # adds uav to list
     def addUav(self, uav):
         self.uavs.append(uav)
+        
+    # remove uav from list
+    def delUav(self, indx):
+        self.uavs.pop(indx)
     
     # add target to list
     def addTarget(self, target):

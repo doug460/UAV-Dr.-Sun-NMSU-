@@ -61,7 +61,7 @@ class CreateAnime(object):
             # get radius percentage
             uav = varis.params.uavs[0]
             radius = np.linalg.norm(uav.getPos())
-            radiusPercent = 100 * radius / varis.params.radius_max 
+            radiusPercent = 100 * radius / varis.params.get_radiusMax(varis.uav_num) 
             self.radiusPercent.append(radiusPercent)
             
             # record status of pso algorithm

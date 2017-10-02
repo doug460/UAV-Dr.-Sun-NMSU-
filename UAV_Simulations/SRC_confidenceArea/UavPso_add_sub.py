@@ -91,7 +91,44 @@ class UavPso_addSub(UavPso):
             
         # going to smaller radius for uavs
         else:
-            print('ERROR NOT REDUCING RADIUS YET')
+            # calculate new radius
+            # calculate largest angle seperation
+            angle_sep = 2 * math.pi / varis.uav_num
+            angle_sep = angle_sep * 2
+            
+            # calculate radius_max AKA new radius
+            new_radius = varis.uav_fov * varis.uav_speed / (angle_sep * varis.target_speed)
+            
+            # need to reduce radius untill...
+            if(self.radius > new_radius):
+                self.moveReduce()
+                
+            # reached safe radius, now reorient
+            else:
+                # when reached new radius, recalculate pso path 
+                # set system to reorient 
+                varis.params.calc_psoPath()
+                self.setPsoStatus(varis.PSO_REORIENT)
+                
+
+    # reduce the radius by the speed of the target
+    def moveReduce(self):
+        # radial and angular velocity
+        v_rad = - varis.target_speed
+        # pathagorien theorem and maths...
+        w = math.sqrt(varis.uav_speed ** 2 - v_rad ** 2) / self.radius 
+        
+        # get change
+        theta_delta = w / varis.params.fps
+        radius_delta = v_rad / varis.params.fps
+        
+        # get new schtuff
+        self.angle += theta_delta
+        self.radius += radius_delta
+        
+        # update pos
+        self.updatePos()
+        
             
     
     # this is like morecircle but with different speed
@@ -154,9 +191,9 @@ class UavPso_addSub(UavPso):
         self.status = status
         
 #         if(status == varis.UAV_NORMAL):
-#             print("PSO NORMAL for %d" % (self.indx))
+#             print("UAV NORMAL for %d" % (self.indx))
 #         elif(status == varis.UAV_REFERENCE):
-#             print("PSO REFERENCE for %d" % (self.indx))
+#             print("UAV REFERENCE for %d" % (self.indx))
 #         elif(status == varis.UAV_REORIENT):
-#             print("PSO REORIENT for %d" % (self.indx))
-        
+#             print("UAV REORIENT for %d" % (self.indx))
+         

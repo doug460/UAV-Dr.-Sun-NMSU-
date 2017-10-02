@@ -42,7 +42,7 @@ OP_SUB = 2
 
 
 # number of uavs
-uav_num = 2
+uav_num = 3
 
 # uav stuff
 uav_speed = 25
@@ -77,7 +77,7 @@ anime_downSample = 2
 
 # array for adding and subtracting uavs
 # [] = run standard
-uavChangeArray = [OP_ADD]
+uavChangeArray = [OP_SUB]
 
 
 
