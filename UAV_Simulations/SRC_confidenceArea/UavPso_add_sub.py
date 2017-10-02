@@ -22,6 +22,11 @@ class UavPso_addSub(UavPso):
     # angle that pre-reorient wil finish
     angle_preReorient_final = none
     
+    # for reducing radius
+    reduce_r_i = none
+    reduce_r_f = none
+    reduce_speed = none
+    
     def __init__(self, params, indx):
         UavPso.__init__(self, params, indx)
         
@@ -90,17 +95,9 @@ class UavPso_addSub(UavPso):
                 
             
         # going to smaller radius for uavs
-        else:
-            # calculate new radius
-            # calculate largest angle seperation
-            angle_sep = 2 * math.pi / varis.uav_num
-            angle_sep = angle_sep * 2
-            
-            # calculate radius_max AKA new radius
-            new_radius = varis.uav_fov * varis.uav_speed / (angle_sep * varis.target_speed)
-            
+        else:            
             # need to reduce radius untill...
-            if(self.radius > new_radius):
+            if(self.radius > UavPso_addSub.reduce_r_f):
                 self.moveReduce()
                 
             # reached safe radius, now reorient
@@ -114,7 +111,7 @@ class UavPso_addSub(UavPso):
     # reduce the radius by the speed of the target
     def moveReduce(self):
         # radial and angular velocity
-        v_rad = - varis.target_speed
+        v_rad = -1 * UavPso_addSub.reduce_speed
         # pathagorien theorem and maths...
         w = math.sqrt(varis.uav_speed ** 2 - v_rad ** 2) / self.radius 
         
@@ -174,6 +171,21 @@ class UavPso_addSub(UavPso):
     # set pso status
     def setPsoStatus(self, status):
         UavPso_addSub.pso_status = status
+        
+        # save equations for reducing schtuff
+        # see paper
+        if(status == varis.PSO_REDUCE_RADIUS):
+            # calculate new radius
+            # calculate largest angle seperation
+            angle_sep = 2 * math.pi / varis.uav_num
+            angle_sep = angle_sep * 2
+            
+            # calculate radius_max AKA final radius            
+            UavPso_addSub.reduce_r_i = self.radius
+            UavPso_addSub.reduce_r_f = varis.uav_fov * varis.uav_speed / (angle_sep * varis.target_speed)
+            
+            UavPso_addSub.reduce_speed = varis.target_speed * math.pi * 2 / angle_sep
+        
         
 #         if(status == varis.PSO_NORMAL):
 #             print("PSO NORMAL")

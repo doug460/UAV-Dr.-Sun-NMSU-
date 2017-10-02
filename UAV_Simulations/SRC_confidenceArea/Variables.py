@@ -59,7 +59,7 @@ fps = 30
 
 # percent radius for which the pso algorithm much reach when using dipole target
 # number of final loops to do when reached 0.99 radius
-pso_radius_fraction = 0.95
+pso_radius_fraction = 0.80
 
 # sive of matrix to be used
 matrix_dim = 300

@@ -3,6 +3,15 @@ Notes for research
 CODE
 	Update scale on image for confidence area
 	print more useful info, like as much as i can
+	
+	So look at doing convolutional masks
+	look at test.py
+	
+	velocity inward is too fast!
+	use removal equations!!
+	
+	removal equations wrong
+	consider fraction of (Omega/2*pi) * (current) T_removal
 
 PAPER
 	include minimum turning radius initialy
