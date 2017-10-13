@@ -46,7 +46,7 @@ class ViewLive(object):
             # downsample half of size
             for row in range(0,dim,varis.view_liveDownSample):
                 for column in range(0,dim,varis.view_liveDownSample):
-                    image[math.floor(row/varis.view_liveDownSample),math.floor(column/varis.view_liveDownSample)] = matrix.matrix[row, column]
+                    image[math.floor(row/varis.view_liveDownSample),math.floor(column/varis.view_liveDownSample)] = matrix.get_matrix()[row, column]
                     
             
             # plot that shit

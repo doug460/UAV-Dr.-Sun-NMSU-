@@ -53,7 +53,7 @@ class RecordData(object):
     # record image for animation
     def rec_anime(self, confArea):
         if varis.anime_bool:
-            self.anime.addImage(confArea.matrix)
+            self.anime.addImage(confArea.get_matrix())
         
     # print data to string
     def toString(self):
@@ -110,7 +110,7 @@ class RecordData(object):
         plt.clf()
         
         # recorder image of confidence area at end
-        plt.imshow(confArea.matrix, cmap = 'gray_r')
+        plt.imshow(confArea.get_matrix(), cmap = 'gray_r')
         plt.title('Confidence Area')
         plt.xlabel('East')
         plt.ylabel('North')

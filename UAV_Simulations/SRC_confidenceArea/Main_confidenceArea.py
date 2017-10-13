@@ -13,6 +13,7 @@ from RecordData import RecordData
 import numpy as np
 from UavPso_add_sub import UavPso_addSub
 import math
+from SRC_confidenceArea.ConfArea_Matrix_v2 import ConfArea_Matrix_v2
 
 class ConfArea(object):
     '''
@@ -24,7 +25,7 @@ class ConfArea(object):
         Constructor
         '''
         
-        self.confArea = ConfArea_Matrix()
+        self.confArea = ConfArea_Matrix_v2()
         self.viewLive = ViewLive()
         
     # this controls which uav object to return

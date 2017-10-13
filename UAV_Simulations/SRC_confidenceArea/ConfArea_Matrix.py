@@ -42,6 +42,10 @@ class ConfArea_Matrix(object):
         sum = np.sum(self.matrix)
         area = sum * (self.matrix2real ** 2)
         return area     
+    
+    # get matrix
+    def get_matrix(self):
+        return self.matrix
         
         
     # update environement matrix
