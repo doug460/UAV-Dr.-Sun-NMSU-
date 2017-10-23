@@ -17,3 +17,57 @@ PAPER
 	include minimum turning radius initialy
 	
 	calculate minimum turning radius during reduction transition
+	
+	
+--------- Research Log ----------
+
+10/13/17:
+	Updated confidence area to account for diagonal reduction
+	It was tricky to get the correct reduction amount, the horizontal and vertical both reduce by different amounts
+	
+	Time consumption I feel like the new code has more computations, but uses built in libraries so time is about the same...
+	
+10/17/17:
+	Reading about genetic algorithms (GA) evolutionary algorihtms (EA), and particle swarm optimization (PSO)
+	Those are mainly used for achieving an optimal solution, so path planning before hand
+	
+	They are not very good for creating a function
+	maybe be able to use machine learning for creating control function of UAV and gimbled camera
+	
+10/23/17:
+	Updated condition on confidence area code. Was fucking up when subtracting UAV at radius > radius_limit. 
+	Worked a little on the journal paper. 
+	
+
+	
+--------- Search Sims --------------
+8/16/17: current data accounts for doing two loops at the beginning of simulation
+	time is a little slower in comparison
+
+
+
+--------- Attack Sims --------------
+
+
+
+--------- Confidence Sims ----------
+10/23/17:
+	basically works like it should. starting with two uavs, ADD, SUB, ADD test. 
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

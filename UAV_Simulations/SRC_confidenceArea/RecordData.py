@@ -87,7 +87,7 @@ class RecordData(object):
             print("added time %d\n" % (x))
         
         for x in self.uavSub_time:
-            hnd_sub, = plt.plot([x,x],[0,self.area_progression[x]], '-.k')
+            hnd_sub, = plt.plot([x,x],[0,self.area_progression[x]], '.k')
         
         # create legend
         

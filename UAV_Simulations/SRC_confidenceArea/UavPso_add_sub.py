@@ -187,14 +187,14 @@ class UavPso_addSub(UavPso):
             UavPso_addSub.reduce_speed = varis.target_speed * math.pi * 2 / angle_sep
         
         
-#         if(status == varis.PSO_NORMAL):
-#             print("PSO NORMAL")
-#         elif(status == varis.PSO_PRE_NORMAL):
-#             print("PSO PRE-NORMAL")
-#         elif(status == varis.PSO_REDUCE_RADIUS):
-#             print("PSO REDUCE-RADIUS")
-#         elif(status == varis.PSO_REORIENT):
-#             print("PSO REORIENT")
+        if(status == varis.PSO_NORMAL):
+            print("PSO NORMAL")
+        elif(status == varis.PSO_PRE_NORMAL):
+            print("PSO PRE-NORMAL")
+        elif(status == varis.PSO_REDUCE_RADIUS):
+            print("PSO REDUCE-RADIUS")
+        elif(status == varis.PSO_REORIENT):
+            print("PSO REORIENT")
         
     def getUavStatus(self):
         return self.status
@@ -202,10 +202,10 @@ class UavPso_addSub(UavPso):
     def setUavStatus(self, status):
         self.status = status
         
-#         if(status == varis.UAV_NORMAL):
-#             print("UAV NORMAL for %d" % (self.indx))
-#         elif(status == varis.UAV_REFERENCE):
-#             print("UAV REFERENCE for %d" % (self.indx))
-#         elif(status == varis.UAV_REORIENT):
-#             print("UAV REORIENT for %d" % (self.indx))
+        if(status == varis.UAV_NORMAL):
+            print("UAV NORMAL for %d" % (self.indx))
+        elif(status == varis.UAV_REFERENCE):
+            print("UAV REFERENCE for %d" % (self.indx))
+        elif(status == varis.UAV_REORIENT):
+            print("UAV REORIENT for %d" % (self.indx))
          

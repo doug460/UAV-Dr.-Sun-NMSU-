@@ -21,7 +21,7 @@ if __name__ == '__main__':
     uav_num = 1
     
     # targets will get distributed evenly over a circle
-    target_num = 50
+    target_num = 360
     
     #### ENVIRONMENT VARIABLES ####
     target_speed = 3
@@ -34,7 +34,7 @@ if __name__ == '__main__':
     
     # initial radius multipler for stopping radius
     radius_multiplier = 2
-    radius_steps = 5
+    radius_steps = 20
     
     
     # select the uav to be used

@@ -42,7 +42,7 @@ OP_SUB = 2
 
 
 # number of uavs
-uav_num = 1
+uav_num = 2
 
 # uav stuff
 uav_speed = 25
@@ -59,7 +59,7 @@ fps = 30
 
 # percent radius for which the pso algorithm much reach when using dipole target
 # number of final loops to do when reached 0.99 radius
-pso_radius_fraction = 0.95
+pso_radius_fraction = 0.99
 
 # sive of matrix to be used
 matrix_dim = 300
@@ -77,7 +77,8 @@ anime_downSample = 2
 
 # array for adding and subtracting uavs
 # [] = run standard
-uavChangeArray = []
+# read it backwards
+uavChangeArray = [OP_ADD, OP_SUB, OP_ADD]
 
 
 

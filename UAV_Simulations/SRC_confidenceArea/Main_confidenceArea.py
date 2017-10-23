@@ -96,11 +96,11 @@ class ConfArea(object):
             recorder.rec_confAreaSize(self.confArea)
             recorder.rec_anime(self.confArea)
             
-            # chech if need to jump into add/subtract procedure
+            # check if need to jump into add/subtract procedure
             if(np.linalg.norm(uavs[0].getPos())/varis.params.get_radiusMax(varis.uav_num) > varis.pso_radius_fraction and
-               len(varis.uavChangeArray) > 0):
+               len(varis.uavChangeArray) > 0 and uavs[0].getPsoStatus() == varis.PSO_NORMAL):
 
-                status = varis.uavChangeArray.pop()
+                status = varis.uavChangeArray.pop(0)
                 
                 # if adding a uav
                 if(status == varis.OP_ADD):
