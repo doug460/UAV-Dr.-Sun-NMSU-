@@ -18,6 +18,7 @@ import errno
 import numpy as np
 
 from SaveDirs import DIR_DATA
+from ViewLive import ViewLive
 
 # type of uav to be used
 UAV_PSO = 1
@@ -29,11 +30,15 @@ TARGET_ATTACK = 1
 
 class AttackSimulation(object):
 	
-	def __init__(self, params, uav_id, target_id, initial_radius, final_radius, radial_stepSize):
+	def __init__(self, params, uav_id, target_id, initial_radius, final_radius, radial_stepSize, viewLive_fps, viewLive_bool, radius_steps):
 		'''
 		Constructor
 		'''
 		self.params = params
+		
+		self.viewLive_bool = viewLive_bool
+		self.viewLive_fps = viewLive_fps
+		self.radius_steps = radius_steps
 		
 		# need to now what radius to start targetw at and how many radii are going to be created
 		self.final_radius = final_radius
@@ -94,7 +99,7 @@ class AttackSimulation(object):
 		
 		# create DATA object to hold successful locations of attacks from targets
 		# DATA object will also hold what ever information that I wish it to hold
-		data = Data(self.params, save_dir, self.initial_radius, self.final_radius, self.radial_stepSize)
+		data = Data(self.params, save_dir, self.initial_radius, self.final_radius, self.radial_stepSize, self.radius_steps)
 		
 		# create detection object for check status of targets with respect to uavs
 		checkDetect = CheckDetect_attack()
@@ -103,11 +108,13 @@ class AttackSimulation(object):
 		total_sims = (self.final_radius - self.initial_radius)/self.radial_stepSize + 1
 		self.params.simulations = total_sims
 		
+		viewLive = ViewLive()
+		
 		# FOR_LOOP: steps throgh different radii of attack
 		for radius in np.arange(self.initial_radius, self.final_radius + self.radial_stepSize, self.radial_stepSize):
 			# reset variables for new run	
 			self.params.reset()	
-			current_sim = (radius - self.initial_radius)/self.radial_stepSize + 1
+			current_sim = round((radius - self.initial_radius)/self.radial_stepSize + 1)
 			buf = "Running %d of %d simulations" % (current_sim, total_sims)
 			print(buf)
 			
@@ -128,9 +135,13 @@ class AttackSimulation(object):
 			# initialize uav position recorder
 			data.initUavsPos(uavs)
 				
+			# keep track of frames
+			frame = 0
 			
 			# WHILE_LOOP till all targets are detected or successfull
-			while(checkDetect.shouldContinue(params)):		
+			while(checkDetect.shouldContinue(params)):	
+				frame += 1
+					
 				# move targets and uavs
 				for target in targets:
 					if(target.status == ATTACKING):
@@ -147,6 +158,12 @@ class AttackSimulation(object):
 				# check if detected or if attack was successful
 					# update targets status
 				checkDetect.updateStatus(params)
+				
+				# plot that shit
+				if(self.viewLive_bool and frame % (self.params.fps / self.viewLive_fps)== 0):
+					viewLive.plotLive(targets, uavs)
+				
+				
 					
 			# record positions of successful attacks
 			data.recordSuccess(params)	

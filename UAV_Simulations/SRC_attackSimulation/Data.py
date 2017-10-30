@@ -10,7 +10,7 @@ import math
 
 class Data(object):
 	
-	def __init__(self, params, save_dir, initial_radius, final_radius, radial_stepSize):
+	def __init__(self, params, save_dir, initial_radius, final_radius, radial_stepSize, radius_steps):
 		# need directory to save information to
 		self.save_dir = save_dir
 		
@@ -31,6 +31,9 @@ class Data(object):
 		
 		# keep track of radii
 		self.radii = []
+		
+		# number of steps taken in radius
+		self.radius_steps = radius_steps
 		
 	
 	# record successfull locations of attack for targets
@@ -125,7 +128,7 @@ class Data(object):
 			y = np.sin(t) * radius
 			plt.plot(x,y,'k.',markersize = 0.5)
 		
-		plt.title('Successful target positions of attack')
+		plt.title('Successful Target Positions of Attack')
 		plt.xlabel('East (m)')
 		plt.ylabel('North (m)')
 		
@@ -139,10 +142,10 @@ class Data(object):
 	
 	# return string of information about the data run
 	def toString(self):
-		buf = 'Of %d targets, %d successfully attacked\n' % (self.params.target_num * self.params.simulations,
+		buf = 'Of %d targets, %d successfully attacked\n' % (self.params.target_num * (self.radius_steps + 1),
 															len(self.successfull_positions))
-		buf += 'Defense rate = %f %%\n' % (100 * (self.params.target_num * self.params.simulations - len(self.successfull_positions))/
-										(self.params.target_num * self.params.simulations))
+		buf += 'Defense rate = %f %%\n' % (100 * (self.params.target_num * (self.radius_steps + 1) - len(self.successfull_positions))/
+										(self.params.target_num * (self.radius_steps + 1)))
 		buf += 'Radius info:\n'
 		buf += '\tInitial target radius: %f\n' % (self.initial_radius)
 		buf += '\tFinal target radius: %f\n' % (self.final_radius)

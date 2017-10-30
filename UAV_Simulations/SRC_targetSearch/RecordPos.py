@@ -76,21 +76,23 @@ class RecordPos(object):
             array = self.targets_pos[indx]
             x = [item[0] for item in array]
             y = [item[1] for item in array]
-            plt.plot(x,y, 'b--')
+            line_targets, = plt.plot(x,y, 'b--', label = 'Target')
+            line_initial, = plt.plot(x[0],y[0], 'k*', label = 'Start Position', markersize = 8)
         
         # plot uavs
         for indx in range(0,self.params.uav_num):
             array = self.uavs_pos[indx]
             x = [item[0] for item in array]
             y = [item[1] for item in array]
-            plt.plot(x,y, 'r-')
+            line_uavs, = plt.plot(x,y, 'r-', label = 'UAV')
+            plt.plot(x[0],y[0], 'k*', markersize = 8)
         
         # plot circle around searchable area
         radius = self.params.radius_search
         t = np.arange(0, 2 * math.pi, 0.01)
         x = np.cos(t) * radius
         y = np.sin(t) * radius
-        plt.plot(x,y,'k--')
+        line_area, = plt.plot(x,y,'k--', label = 'Search Area')
         
         # plot circle around each uav
         for indx in range(0,self.params.uav_num):
@@ -99,11 +101,13 @@ class RecordPos(object):
             array = self.uavs_pos[indx][len(self.uavs_pos[indx]) - 1]
             x = np.cos(t) * radius + array[0]
             y = np.sin(t) * radius + array[1]
-            plt.plot(x,y,'g:')
+            line_fov, = plt.plot(x,y,'g:', label = 'Field of View')
         
         plt.title('UAV-TargetRandom Simulation')
         plt.xlabel('East (m)')
         plt.ylabel('North (m)')
+        
+        plt.legend(handles = [line_uavs, line_targets, line_area, line_fov, line_initial])
         
         buf = saveDir + name + '.png'
         plt.savefig(buf)
