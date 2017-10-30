@@ -18,10 +18,11 @@ class CreateAnime(object):
     
 
 
-    def __init__(self):
+    def __init__(self, areaLimit):
         '''
         Constructor
         '''
+        self.areaLimit = areaLimit
         
         # holder for images
         self.images = []
@@ -84,7 +85,7 @@ class CreateAnime(object):
         self.ax1.clear()
         
         # plot that shit
-        self.ax1.imshow(self.images[frame], cmap = 'gray_r')
+        self.ax1.imshow(self.images[frame], cmap = 'gray_r', extent=[0, self.areaLimit, 0, self.areaLimit])
 
         
         # get current radius percent

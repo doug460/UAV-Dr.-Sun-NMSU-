@@ -181,8 +181,21 @@ class ConfArea_Matrix_v2(object):
                     # update uncertainty
                     if(radius < (varis.uav_fov * self.real2matrix / 2)):
                         self.matrix[row,column] = detected_value;
-     
-     
+                        
+                        
+    # basically want to et search area size for ;lotting
+    def getSearchEdge(self):
+        return self.matrix2real * varis.matrix_dim
+    
+    
+    
+    
+    
+    
+    
+    
+    
+         
                         
     
 

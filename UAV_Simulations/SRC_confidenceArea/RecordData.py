@@ -21,10 +21,12 @@ class RecordData(object):
     '''
 
 
-    def __init__(self):
+    def __init__(self, areaLimit):
         '''
         Constructor
         '''
+        self.areaLimit = areaLimit
+        
         # keeps track of seconds for recording info
         self.sec_counter = 0
         
@@ -36,7 +38,7 @@ class RecordData(object):
         self.uavAdded_time = []
         self.uavSub_time = []
         
-        self.anime = CreateAnime()
+        self.anime = CreateAnime(areaLimit)
     
     
     # for size of confidence area
@@ -87,7 +89,7 @@ class RecordData(object):
             print("added time %d\n" % (x))
         
         for x in self.uavSub_time:
-            hnd_sub, = plt.plot([x,x],[0,self.area_progression[x]], '.k')
+            hnd_sub, = plt.plot([x,x],[0,self.area_progression[x]], '.-k')
         
         # create legend
         
@@ -110,10 +112,10 @@ class RecordData(object):
         plt.clf()
         
         # recorder image of confidence area at end
-        plt.imshow(confArea.get_matrix(), cmap = 'gray_r')
+        plt.imshow(confArea.get_matrix(), cmap = 'gray_r', extent=[0, self.areaLimit, 0, self.areaLimit])
         plt.title('Confidence Area')
-        plt.xlabel('East')
-        plt.ylabel('North')
+        plt.xlabel('East (m)')
+        plt.ylabel('North (m)')
         buf = varis.saveDir + 'confArea.png'
         plt.savefig(buf)
     

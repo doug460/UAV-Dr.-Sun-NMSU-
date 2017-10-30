@@ -51,7 +51,7 @@ class ConfArea(object):
         # data/pic/video recorder
         # record position, confArea size, time, 
         # also save pic/video files
-        recorder = RecordData() 
+        recorder = RecordData(self.confArea.getSearchEdge()) 
         
         
         print("Running confidence area simulation")

@@ -45,7 +45,6 @@ PAPER
 	time is a little slower in comparison
 
 
-
 --------- Attack Sims --------------
 
 
@@ -53,6 +52,9 @@ PAPER
 --------- Confidence Sims ----------
 10/23/17:
 	basically works like it should. starting with two uavs, ADD, SUB, ADD test. 
+	
+	
+--------- Smart Sims --------------
 	
 
 
