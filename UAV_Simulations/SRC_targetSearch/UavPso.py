@@ -64,7 +64,8 @@ class UavPso(object):
         
     # move one step for uav
     def moveStep(self):
-        if(UavPso.params.current_time < 4 * math.pi * self.radius_initial / (UavPso.params.uav_num * UavPso.params.uav_speed)):
+#         if(UavPso.params.current_time < 4 * math.pi * self.radius_initial / (UavPso.params.uav_num * UavPso.params.uav_speed)):
+        if(UavPso.params.current_time < (2 * math.pi / UavPso.params.uav_num) * self.radius_initial / UavPso.params.uav_speed):
             self.moveCircle()
         else:
             if(UavPso.time_shift == none):
@@ -113,5 +114,6 @@ class UavPso(object):
     # get initial radius
     @staticmethod
     def getInitRadius(params):
-        return params.uav_speed * params.uav_fov /(2*(2*params.target_speed + params.uav_speed))
+        return (params.uav_fov / (2 * (1 + params.uav_speed / params.target_speed)))*(params.uav_speed / params.target_speed) - 1
+#         return params.uav_speed * params.uav_fov /(2*(2*params.target_speed + params.uav_speed))
         

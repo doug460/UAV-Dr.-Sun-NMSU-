@@ -22,13 +22,13 @@ if __name__ == '__main__':
     # for looping tests
     uav_num_i = 2
     uav_num_f = 2
-    target_num_i = 4
-    target_num_f = 4
+    target_num_i = 1
+    target_num_f = 1
     
     
     # number of siumations to be run
-    simulations = 10
-    
+    simulations = 1
+        
     # time limit (s) for how long the program can run
     time_limit = 1000
     
@@ -39,7 +39,7 @@ if __name__ == '__main__':
     
     # save images and the rate at which to save them
     saveImages = True
-    saveImages_rate = 1
+    saveImages_rate = 100
     
     # save move stuff
     saveMovie = False
@@ -58,12 +58,12 @@ if __name__ == '__main__':
     # select the uav to be used
     # UAV_PSO: for pso flight pattern with uav
     # UAV_RASTER: for raster flight pattern
-    uav_id = UAV_RASTER
+    uav_id = UAV_PSO
     
     # select type of target to be used
     # TARGET_RANDOM: is for random moving target
     # TARGET_DIPOLE: target behaves as uavs are dipoles
-    target_id = TARGET_RANDOM    
+    target_id = TARGET_DIPOLE    
     
     
     # loop through tests and save info
@@ -88,8 +88,8 @@ if __name__ == '__main__':
                 indx = params.pso_radius > UavPso.getInitRadius(params)
                 time_limit -= np.min(params.pso_time[indx])
                 
-                # need to adjust for initial motion of two loops at initial radius
-                time_initial = 2 * 2 * math.pi * UavPso.getInitRadius(params) / uav_speed
+                # need to adjust for initial motion of one loop at initial radius
+                time_initial = 2 * math.pi * UavPso.getInitRadius(params) / uav_speed
                 time_limit += time_initial
                 
                 

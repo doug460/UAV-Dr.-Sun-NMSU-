@@ -50,7 +50,7 @@ class RecordData(object):
             self.sec_counter += 1
             
             # save size of confidence area
-            self.area_progression.append(confArea.get_areaSize())
+            self.area_progression.append(confArea.get_areaSize()/(1000000))
             
     # record image for animation
     def rec_anime(self, confArea):
@@ -64,7 +64,7 @@ class RecordData(object):
             buf += "Time limit = %f\n" % (varis.params.time_limit)
         buf += 'Ended at time = %f\n' % (varis.params.current_time)
         buf += 'Running until %f %% of maximum radius\n' % (varis.pso_radius_fraction * 100)
-        buf += "Confidence area final size (m^2) = %f\n" % (self.area_progression[len(self.area_progression) - 1])
+        buf += "Confidence area final size (km^2) = %f\n" % (self.area_progression[len(self.area_progression) - 1])
         buf += "Max Radius = %f \n\t Max Searchable Radius = %f\n" % (varis.params.radius_max, varis.params.radius_search) 
         buf += "Uav info:\n\tNumber: %d\n\tSpeed: %d\n\tD_fov: %d\n\tfps: %d\n" % (varis.params.uav_num, varis.params.uav_speed, varis.params.uav_fov,
                                                                                 varis.params.fps)
@@ -78,36 +78,36 @@ class RecordData(object):
         hnd_sub = none
               
         # record confidence area vs time
-        hnd_area, = plt.plot(self.area_progression)
+        hnd_area, = plt.plot(self.area_progression, label = 'Area')
         plt.title('Confidence area vs time')
         plt.xlabel('Time (s)')
-        plt.ylabel('Area (m^2)')
+        plt.ylabel('Area (km^2)')
         
         #plot times when uav was added and subtracted
         for x in self.uavAdded_time:
-            hnd_add, = plt.plot([x,x],[0,self.area_progression[x]], '--k') 
+            hnd_add, = plt.plot([x,x],[0,self.area_progression[x]], '--k', label = 'Uav added') 
             print("added time %d\n" % (x))
         
         for x in self.uavSub_time:
-            hnd_sub, = plt.plot([x,x],[0,self.area_progression[x]], '.-k')
+            hnd_sub, = plt.plot([x,x],[0,self.area_progression[x]], '.-k', label = 'Uav removed')
         
         # create legend
         
         
         if hnd_add is none:
             if hnd_sub is none:
-                plt.legend([hnd_area], ['Area'])
+                lgd = plt.legend(loc='center left', bbox_to_anchor=(1, 0.5),prop={'size':10},handles = [hnd_area])
             else:
-                plt.legend([hnd_area, hnd_sub], ['Area', 'Uav Subtracted'])
+                lgd = plt.legend(loc='center left', bbox_to_anchor=(1, 0.5),prop={'size':10}, handles = [hnd_area, hnd_sub])
         elif hnd_sub is none:
-            plt.legend([hnd_area, hnd_add], ['Area', 'Uav Added'])
+            lgd = plt.legend(loc='center left', bbox_to_anchor=(1, 0.5),prop={'size':10},handles = [hnd_area, hnd_add])
         else:
-            plt.legend([hnd_area, hnd_add, hnd_sub], ['Confidence Area', 'Uav Added', 'Uav Subtracted'])
+            lgd = plt.legend(loc='center left', bbox_to_anchor=(1, 0.5),prop={'size':10},handles = [hnd_area, hnd_add, hnd_sub])
             
             
         
         buf = varis.saveDir + 'confArea_vs_t.png'
-        plt.savefig(buf)
+        plt.savefig(buf, bbox_extra_artists=(lgd,), bbox_inches='tight')
         
         plt.clf()
         

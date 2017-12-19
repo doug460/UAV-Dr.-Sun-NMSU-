@@ -70,14 +70,13 @@ class RecordPos(object):
             
             
     def savePlot(self, saveDir, name):
-        
         # need to plot all the uavs and targets paths  
         for indx in range(0,self.params.target_num):
             array = self.targets_pos[indx]
             x = [item[0] for item in array]
             y = [item[1] for item in array]
             line_targets, = plt.plot(x,y, 'b--', label = 'Target')
-            line_initial, = plt.plot(x[0],y[0], 'k*', label = 'Start Position', markersize = 8)
+            target_initial, = plt.plot(x[0],y[0], 'k*', label = 'Target Start', markersize = 8)
         
         # plot uavs
         for indx in range(0,self.params.uav_num):
@@ -85,7 +84,7 @@ class RecordPos(object):
             x = [item[0] for item in array]
             y = [item[1] for item in array]
             line_uavs, = plt.plot(x,y, 'r-', label = 'UAV')
-            plt.plot(x[0],y[0], 'k*', markersize = 8)
+            Uav_initial, = plt.plot(x[0],y[0], 'ko',label = 'UAV Start', markersize = 8)
         
         # plot circle around searchable area
         radius = self.params.radius_search
@@ -107,10 +106,10 @@ class RecordPos(object):
         plt.xlabel('East (m)')
         plt.ylabel('North (m)')
         
-        plt.legend(handles = [line_uavs, line_targets, line_area, line_fov, line_initial])
+        lgd = plt.legend(loc='center left', bbox_to_anchor=(1, 0.5),prop={'size':10}, handles = [line_uavs, line_targets, line_area, line_fov, Uav_initial, target_initial])
         
         buf = saveDir + name + '.png'
-        plt.savefig(buf)
+        plt.savefig(buf, bbox_extra_artists=(lgd,), bbox_inches='tight')
         
         plt.close()
     
