@@ -23,11 +23,11 @@ if __name__ == '__main__':
     uav_num_i = 2
     uav_num_f = 2
     target_num_i = 1
-    target_num_f = 1
+    target_num_f = 4
     
     
     # number of siumations to be run
-    simulations = 1
+    simulations = 1000
         
     # time limit (s) for how long the program can run
     time_limit = 1000
@@ -48,7 +48,7 @@ if __name__ == '__main__':
     #### ENVIRONMENT VARIABLES ####
     target_speed = 3
     
-    uav_speed = 25
+    uav_speed = 20
     uav_fov = 100
     
     # fps of detection
@@ -63,7 +63,7 @@ if __name__ == '__main__':
     # select type of target to be used
     # TARGET_RANDOM: is for random moving target
     # TARGET_DIPOLE: target behaves as uavs are dipoles
-    target_id = TARGET_DIPOLE    
+    target_id = TARGET_RANDOM    
     
     
     # loop through tests and save info

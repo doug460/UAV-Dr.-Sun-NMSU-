@@ -16,6 +16,7 @@ import time
 import os
 import errno
 import numpy as np
+import time
 
 from SaveDirs import DIR_DATA
 from ViewLive import ViewLive
@@ -85,6 +86,9 @@ class AttackSimulation(object):
 	
 	# start of program
 	def begin(self):
+		# record time of execution
+		start_time = time.time()  
+		
 		# specify save directory
 		# directory to which to save data
 		save_dir = DIR_DATA + "/" + time.strftime('%Y-%m-%d--%H-%M-%S--') + self.name_id + "/"
@@ -179,6 +183,7 @@ class AttackSimulation(object):
 		
 		
 		# DATA object: save attack information 
+		data.executionTime = time.time() - start_time
 		data.saveData()
 		data.printTxt()
 		

@@ -26,7 +26,6 @@ class Data(object):
 		self.successfull_positions = []
 		
 		# for recording positions
-		self.list_positions = []
 		self.uavs_pos = []
 		
 		# keep track of radii
@@ -35,14 +34,21 @@ class Data(object):
 		# number of steps taken in radius
 		self.radius_steps = radius_steps
 		
+		# array to hold angles of attack that succeded
+		self.successfull_angles = np.zeros(params.target_num)
+		
+		# save execution time of program
+		self.executionTime = 0
+		
 	
 	# record successfull locations of attack for targets
 	def recordSuccess(self, params):
 		# step through targets that were successfull
 		# if successful, save that position to array
-		for target in params.targets:
+		for indx, target in enumerate(params.targets):
 			if(target.status == SUCCESSFULL):
 				self.successfull_positions.append(target.get_initialPos())
+				self.successfull_angles[indx] = 1
 				
 	# record uav positions for graph
 	def recordUavsPos(self, uavs):			
@@ -52,15 +58,17 @@ class Data(object):
 			list_positions = self.uavs_pos[indx]
 			array = [uav.position[0], uav.position[1]]
 			list_positions.append(array)
+			self.uavs_pos[indx] = list_positions
 			
 	# initialize uav positions
 	def initUavsPos(self, uavs):
 		# initializing uavs positions
 		for indx in range(0,self.params.uav_num):
+			list_positions = []
 			uav = uavs[indx]
 			array = [uav.position[0], uav.position[1]]
-			self.list_positions.insert(0,array)
-			self.uavs_pos.insert(indx,self.list_positions) 
+			list_positions.insert(0,array)
+			self.uavs_pos.insert(indx,list_positions) 
 	
 	# record radii
 	def recordRadii(self, radius):
@@ -146,6 +154,8 @@ class Data(object):
 															len(self.successfull_positions))
 		buf += 'Defense rate = %f %%\n' % (100 * (self.params.target_num * (self.radius_steps + 1) - len(self.successfull_positions))/
 										(self.params.target_num * (self.radius_steps + 1)))
+		buf += 'Our of %d angles, %d succeeded\n' % (self.params.target_num, np.sum(self.successfull_angles))
+		buf += '\tDefense rate for angles is %f %%\n' % (100 *(1- np.sum(self.successfull_angles)/self.params.target_num))
 		buf += 'Radius info:\n'
 		buf += '\tInitial target radius: %f\n' % (self.initial_radius)
 		buf += '\tFinal target radius: %f\n' % (self.final_radius)
@@ -154,7 +164,8 @@ class Data(object):
 		buf += "Uav info:\n\tNumber: %d\n\tSpeed: %d\n\tD_fov: %d\n\tfps: %d\n" % (self.params.uav_num, 
 																				self.params.uav_speed, self.params.uav_fov,
 		                                                                        self.params.fps)
-		buf += "TargetRandom info:\n\tNumber %d\n\tSpeed: %d\n" % (self.params.target_num, self.params.target_speed)         
+		buf += "TargetRandom info:\n\tNumber %d\n\tSpeed: %d\n" % (self.params.target_num, self.params.target_speed)
+		buf += "\nExecution time was %d seconds" % (self.executionTime)         
 		return buf
 		
 		# add info for failure rate of uav to defend

@@ -18,10 +18,10 @@ if __name__ == '__main__':
     ### CONTROL PROGRAM VARIABLES ####
     
     # number of uavs
-    uav_num = 1
+    uav_num = 2
     
     # targets will get distributed evenly over a circle
-    target_num = 180
+    target_num = 20
     
     #### ENVIRONMENT VARIABLES ####
     target_speed = 3
@@ -34,7 +34,7 @@ if __name__ == '__main__':
     
     # initial radius multipler for stopping radius
     radius_multiplier = 2
-    radius_steps = 2
+    radius_steps = 1
     
     # frame rate for view stuff live
     viewLive_fps = 1
