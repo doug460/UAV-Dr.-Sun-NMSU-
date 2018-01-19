@@ -17,6 +17,7 @@ import os
 import errno
 import numpy as np
 import time
+import math
 
 from SaveDirs import DIR_DATA
 from ViewLive import ViewLive
@@ -103,21 +104,21 @@ class AttackSimulation(object):
 		
 		# create DATA object to hold successful locations of attacks from targets
 		# DATA object will also hold what ever information that I wish it to hold
-		data = Data(self.params, save_dir, self.initial_radius, self.final_radius, self.radial_stepSize, self.radius_steps)
+		data = Data(params, save_dir, self.initial_radius, self.final_radius, self.radial_stepSize, self.radius_steps)
 		
 		# create detection object for check status of targets with respect to uavs
 		checkDetect = CheckDetect_attack()
 		
 		# get total simulations
 		total_sims = (self.final_radius - self.initial_radius)/self.radial_stepSize + 1
-		self.params.simulations = total_sims
+		params.simulations = total_sims
 		
 		viewLive = ViewLive()
 		
 		# FOR_LOOP: steps throgh different radii of attack
 		for radius in np.arange(self.initial_radius, self.final_radius + self.radial_stepSize, self.radial_stepSize):
 			# reset variables for new run	
-			self.params.reset()	
+			params.reset()	
 			current_sim = round((radius - self.initial_radius)/self.radial_stepSize + 1)
 			buf = "Running %d of %d simulations" % (current_sim, total_sims)
 			print(buf)
@@ -164,8 +165,11 @@ class AttackSimulation(object):
 				checkDetect.updateStatus(params)
 				
 				# plot that shit
-				if(self.viewLive_bool and frame % (self.params.fps / self.viewLive_fps)== 0):
+				if(self.viewLive_bool and frame % (params.fps / self.viewLive_fps)== 0):
 					viewLive.plotLive(targets, uavs)
+					
+				# update time
+				params.timeStep()
 				
 				
 					

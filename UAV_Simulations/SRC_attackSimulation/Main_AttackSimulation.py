@@ -21,20 +21,20 @@ if __name__ == '__main__':
     uav_num = 2
     
     # targets will get distributed evenly over a circle
-    target_num = 20
+    target_num = 180
     
     #### ENVIRONMENT VARIABLES ####
     target_speed = 3
     
-    uav_speed = 25
+    uav_speed = 20
     uav_fov = 100
     
     # fps of detection
     fps = 30
     
     # initial radius multipler for stopping radius
-    radius_multiplier = 2
-    radius_steps = 1
+    radius_multiplier = 3
+    radius_steps = 30
     
     # frame rate for view stuff live
     viewLive_fps = 1
@@ -53,7 +53,7 @@ if __name__ == '__main__':
     target_id = TARGET_ATTACK
     
     # initialize parameters    
-    params = Params(uav_num, uav_fov, uav_speed, target_num, target_speed, fps, none, none)
+    params = Params(uav_num, uav_fov, uav_speed, target_num, target_speed, fps, none, 10000)
     
     # radius parameters for attacking targets
     initial_radius = params.radius_search

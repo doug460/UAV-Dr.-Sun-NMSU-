@@ -22,7 +22,7 @@ if __name__ == '__main__':
     # for looping tests
     uav_num_i = 2
     uav_num_f = 2
-    target_num_i = 1
+    target_num_i = 3
     target_num_f = 4
     
     
@@ -58,12 +58,12 @@ if __name__ == '__main__':
     # select the uav to be used
     # UAV_PSO: for pso flight pattern with uav
     # UAV_RASTER: for raster flight pattern
-    uav_id = UAV_PSO
+    uav_id = UAV_RASTER
     
     # select type of target to be used
     # TARGET_RANDOM: is for random moving target
     # TARGET_DIPOLE: target behaves as uavs are dipoles
-    target_id = TARGET_RANDOM    
+    target_id = TARGET_DIPOLE    
     
     
     # loop through tests and save info

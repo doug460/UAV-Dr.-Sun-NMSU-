@@ -45,7 +45,7 @@ OP_SUB = 2
 uav_num = 2
 
 # uav stuff
-uav_speed = 25
+uav_speed = 20
 uav_fov = 100
 
 # speed at which the reorienting uavs should travel

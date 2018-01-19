@@ -88,6 +88,8 @@ class Params(object):
         self.uavs = []
         self.targets = []
         
+        self.calc_psoPath()
+        
     # adds uav to list
     def addUav(self, uav):
         self.uavs.append(uav)
