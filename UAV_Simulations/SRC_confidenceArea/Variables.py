@@ -71,7 +71,7 @@ view_liveDownSample = 2
 
 # for animation
 # down sample is for matrix
-anime_bool = True
+anime_bool = False
 anime_fps = 2
 anime_downSample = 2
 

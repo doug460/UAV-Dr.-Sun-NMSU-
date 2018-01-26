@@ -188,13 +188,13 @@ class UavPso_addSub(UavPso):
         
         
         if(status == varis.PSO_NORMAL):
-            print("PSO NORMAL")
+            print(varis.params.current_time, "s : PSO NORMAL")
         elif(status == varis.PSO_PRE_NORMAL):
-            print("PSO PRE-NORMAL")
+            print(varis.params.current_time, "s : PSO PRE-NORMAL")
         elif(status == varis.PSO_REDUCE_RADIUS):
-            print("PSO REDUCE-RADIUS")
+            print(varis.params.current_time, "s : PSO REDUCE-RADIUS")
         elif(status == varis.PSO_REORIENT):
-            print("PSO REORIENT")
+            print(varis.params.current_time, "s : PSO REORIENT")
         
     def getUavStatus(self):
         return self.status

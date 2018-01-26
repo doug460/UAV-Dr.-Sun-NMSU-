@@ -104,7 +104,7 @@ class ConfArea(object):
                 
                 # if adding a uav
                 if(status == varis.OP_ADD):
-                    print("Adding UAV")
+                    print("---", varis.params.current_time, "s : Adding UAV---")
                     
                     # add uav to end of uavs
                     # place between first and last
@@ -144,7 +144,7 @@ class ConfArea(object):
                 
                 # else subtracting a uav
                 else: 
-                    print('Subtracting UAV')
+                    print("---", varis.params.current_time, "s : Removing UAV---")
                     # delete uav right in front of reference uav
                     # update uav NUM
                     uavs.pop(1)
@@ -169,6 +169,7 @@ class ConfArea(object):
                     # make pso path as subtracting
                     uavs[0].setPsoStatus(varis.PSO_REDUCE_RADIUS)
                     
+        print(varis.params.current_time, "s : Final finishing time")
         
         # print and save simulation data...
         print(recorder.toString())
