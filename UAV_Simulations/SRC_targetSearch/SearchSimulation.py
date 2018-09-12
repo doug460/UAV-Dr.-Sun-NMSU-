@@ -165,6 +165,8 @@ class SearchSimulation(object):
                 # create animation of paths taken
                 recordPos.saveAnime(saveDir, str(sim+1))
                 
+            
+                
         
         # print and record data        
         print(recordData.toString())

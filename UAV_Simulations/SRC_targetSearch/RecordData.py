@@ -7,6 +7,7 @@ setup to record data of stuffs
 '''
 
 import numpy as np
+import matplotlib.pyplot as plt
 
 class RecordData(object):
     '''
@@ -50,4 +51,25 @@ class RecordData(object):
         file  = open(buf,'w')
         file.write(self.toString())
         file.close()
+        
+        self.averagedTime(saveDir)
+        
+        
+        
+    def averagedTime(self, saveDir):
+        # save averaged over time
+        array = np.zeros(len(self.time_to_detect))
+        for count, value in enumerate(self.time_to_detect):
+            if count == 0:
+                array[ count ] = value
+            else: 
+                array[ count ] = ( array[ count - 1 ] * ( count - 1 ) + value ) / count
+        
+        file = saveDir + "averagedData"
+        np.save(file, array)
+        
+            
+        
+        
+        
         

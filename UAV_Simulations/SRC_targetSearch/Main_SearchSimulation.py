@@ -20,9 +20,9 @@ if __name__ == '__main__':
 
     ### CONTROL PROGRAM VARIABLES ####
     # for looping tests
-    uav_num_i = 2
-    uav_num_f = 2
-    target_num_i = 3
+    uav_num_i = 3
+    uav_num_f = 3
+    target_num_i = 2
     target_num_f = 4
     
     
@@ -38,7 +38,7 @@ if __name__ == '__main__':
     pso_final_loops = 2
     
     # save images and the rate at which to save them
-    saveImages = True
+    saveImages = False
     saveImages_rate = 100
     
     # save move stuff
@@ -58,12 +58,12 @@ if __name__ == '__main__':
     # select the uav to be used
     # UAV_PSO: for pso flight pattern with uav
     # UAV_RASTER: for raster flight pattern
-    uav_id = UAV_RASTER
+    uav_id = UAV_PSO
     
     # select type of target to be used
     # TARGET_RANDOM: is for random moving target
     # TARGET_DIPOLE: target behaves as uavs are dipoles
-    target_id = TARGET_DIPOLE    
+    target_id = TARGET_RANDOM    
     
     
     # loop through tests and save info
