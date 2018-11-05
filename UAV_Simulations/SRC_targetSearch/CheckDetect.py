@@ -35,3 +35,13 @@ class CheckDetect(object):
                 allDetected = False 
             
         return allDetected
+    
+    @staticmethod
+    def totalDetected(params, targets):        
+        # check if all are detected
+        amountDetected = 0
+        for indx in range(0,params.target_num):
+            if(targets[indx].detected == True):
+                amountDetected += 1
+            
+        return amountDetected

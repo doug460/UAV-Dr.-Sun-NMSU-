@@ -155,7 +155,7 @@ class SearchSimulation(object):
                 recordPos.record(uavs,targets)
             
             # record simulation data 
-            recordData.rec(params, CheckDetect.checkDetect(params, uavs, targets))
+            recordData.rec(params, CheckDetect.checkDetect(params, uavs, targets), CheckDetect.totalDetected(params, targets))
             
             # create images and movies based on user input
             if(self.saveImages and (sim + 1) % self.saveImages_rate == 0):

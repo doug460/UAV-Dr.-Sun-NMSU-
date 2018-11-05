@@ -21,7 +21,7 @@ if __name__ == '__main__':
     uav_num = 3
     
     # targets will get distributed evenly over a circle
-    target_num = 825
+    target_num = 232
     
     #### ENVIRONMENT VARIABLES ####
     target_speed = 3
@@ -44,7 +44,7 @@ if __name__ == '__main__':
     # select the uav to be used
     # UAV_PSO: for pso flight pattern with uav
     # UAV_RASTER: for raster flight pattern
-    uav_id = UAV_PSO
+    uav_id = UAV_RASTER
     
     # select type of target to be used
     # TARGET_RANDOM: is for random moving target
